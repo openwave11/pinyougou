@@ -29,4 +29,6 @@ app.controller("baseController", function ($scope) {
             $scope.selectIds.splice(index, 1);
         }
     };
+
+
 });

@@ -1,16 +1,15 @@
 package com.pinyougou.manager.controller;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.sellergoods.service.BrandService;
-
-import entity.PageResult;
+import entity.PageInfo;
 import entity.Result;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 /**
  * controller
  * @author Administrator
@@ -28,8 +27,8 @@ public class BrandController {
 	 * @return
 	 */
 	@RequestMapping("/findAll")
-	public List<TbBrand> findAll(){			
-		return brandService.findAll();
+	public PageInfo<TbBrand> findAll(Integer pageNum, Integer pageSize){
+		return brandService.findAll(pageNum,pageSize);
 	}
 	
 	
@@ -38,8 +37,8 @@ public class BrandController {
 	 * @return
 	 */
 	@RequestMapping("/findPage")
-	public PageResult  findPage(int page,int rows){			
-		return brandService.findPage(page, rows);
+	public PageInfo<TbBrand> findPage(int page, int rows){
+		return brandService.findAll(page, rows);
 	}
 	
 	/**
@@ -108,13 +107,13 @@ public class BrandController {
 	 * @return
 	 */
 	@RequestMapping("/search")
-	public PageResult search(@RequestBody TbBrand brand, int page, int rows  ){
-		return brandService.findAll(brand, page, rows);
+	public PageInfo<TbBrand> search(@RequestBody TbBrand brand, int page, int rows  ){
+		return brandService.findAll(page,rows,brand);
 	}
 	
 	
 	@RequestMapping("/selectOptionList")
-	public List<Map> selectOptionList() {
+	public List<Map<String, Object>> selectOptionList() {
 		return brandService.selectOptionList();
 	}
 

@@ -11,6 +11,7 @@ import com.pinyougou.sellergoods.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * BrandServiceImpl
@@ -112,6 +113,9 @@ public class BrandServiceImpl implements BrandService {
         PageInfo<TbBrand> pageInfo = new PageInfo<TbBrand>(tbBrandList);
         return pageInfo;
     }
-
+    @Override
+    public List<Map<String, Object>> selectOptionList() {
+        return brandMapper.selectOptionList();
+    }
 
 }

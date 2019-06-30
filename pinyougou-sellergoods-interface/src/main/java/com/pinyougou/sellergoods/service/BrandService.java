@@ -1,8 +1,12 @@
 package com.pinyougou.sellergoods.service;
 
 //import com.github.pagehelper.PageInfo;
+
 import com.pinyougou.pojo.TbBrand;
 import entity.PageInfo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 品牌接口
@@ -40,4 +44,6 @@ public interface BrandService {
     public void delete(Long[] ids);
 
     public  PageInfo<TbBrand> findAll(Integer pageNum, Integer pageSize, TbBrand tbBrand);
+
+    List<Map<String, Object>> selectOptionList();
 }

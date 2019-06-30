@@ -1,5 +1,5 @@
  //控制层 
-app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemplateService){	
+app.controller('typeTemplateController' ,function($scope,$controller ,brandService  ,typeTemplateService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -77,8 +77,28 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 		);
 	};
 
-	$scope.brandList={data:[{"id":16,"text":"TCL"},{"id":13,"text":"长虹"},{"id":14,"text":"海尔"},{"id":19,"text":"创维"},{"id":21,"text":"康佳"},{"id":18,"text":"夏普"},{"id":17,"text":"海信"},{"id":20,"text":"东芝"},{"id":15,"text":"飞利浦"},{"id":22,"text":"LG"}]};
+	// $scope.brandList={data:[{"id":16,"text":"TCL"},{"id":13,"text":"长虹"},{"id":14,"text":"海尔"},{"id":19,"text":"创维"},{"id":21,"text":"康佳"},{"id":18,"text":"夏普"},{"id":17,"text":"海信"},{"id":20,"text":"东芝"},{"id":15,"text":"飞利浦"},{"id":22,"text":"LG"}]};
+	//
+	// $scope.specList = {data: [{"id": 27, "text": "网络"}, {"id": 32, "text": "机身内存"}]};
+	// $scope.brandList={data:[{id:1,text:'联想'},{id:2,text:'华为'},{id:3,text:'小米'}]};
 
-	$scope.specList = {data: [{"id": 27, "text": "网络"}, {"id": 32, "text": "机身内存"}]};
-    
+	//读取品牌列表
+	$scope.brandList={data:[]}
+	$scope.findBrandList=function () {
+		brandService.selectOptionList().success(
+			function (response) {
+				$scope.brandList = {data:response};
+			}
+		)
+	}
+
+	/*$scope.brandList={data:[]};//品牌列表
+
+	$scope.findBrandList=function(){
+		brandService.selectOptionList().success(
+			function(response){
+				$scope.brandList={data:response};
+			}
+		);
+	}*/
 });	

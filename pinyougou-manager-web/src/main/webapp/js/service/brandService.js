@@ -15,6 +15,7 @@ app.service('brandService', function ($http) {
         return $http.post('../brand/search.do?page=' + currentPage + '&rows=' + itemsPerPage, searchEntity);
     }
 
+
     this.selectOptionList = function () {
         return $http.post('../brand/selectOptionList.do');
     }
