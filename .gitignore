@@ -1,0 +1,12 @@
+*.class
+target/
+.idea/
+logs/
+.classpath
+.project
+.settings/
+.amateras
+/target*
+*.log*
+*.lock
+*.jar

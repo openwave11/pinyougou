@@ -1,0 +1,1 @@
+var app_noPagination = angular.module("pinyougou", []);

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!---->
+    <meta charset="UTF-8">
+    <title>demo5</title>
+    <script src="angular.min.js"></script>
+    <script>
+
+        var app = angular.module('myapp', []);
+        app.controller('myController', function ($scope) {
+            $scope.list = [
+                {name:"张三",shuxue:"100",yuwen:"93"},
+                {name:"李四",shuxue:"88",yuwen:"87"},
+                {name:"王五",shuxue:"77",yuwen:"56"},
+                {name:"赵六",shuxue:"67",yuwen:"86"}
+            ];
+
+        });
+    </script>
+</head>
+<body ng-app="myapp" ng-controller="myController">
+
+<table border="red solid 1px">
+<tr >
+    <td>姓名</td>
+    <td>数学</td>
+    <td>语文</td>
+</tr>
+<tr ng-repeat="entiry in list">
+    <td>{{entiry.name}}</td>
+    <td>{{entiry.shuxue}}</td>
+    <td>{{entiry.yuwen}}</td>
+</tr>
+</table>
+</body>
+</html>
