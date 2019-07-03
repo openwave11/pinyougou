@@ -1,6 +1,6 @@
 app.controller("brandController", function ($scope, $controller, brandService) {
 
-    $controller("baseController",{$scope:$scope});
+    $controller("baseController", {$scope: $scope});
 
     $scope.save = function () {
         var object = null;
@@ -31,7 +31,7 @@ app.controller("brandController", function ($scope, $controller, brandService) {
 
 
     $scope.deletea = function () {
-        brandService.deletea($scope.ids).success(
+        brandService.deletea($scope.selectIds).success(
             function (date) {
                 if (date.success) {
                     $scope.reloadList();
@@ -42,16 +42,16 @@ app.controller("brandController", function ($scope, $controller, brandService) {
         )
     };
     $scope.searchEntity = {};
-    $scope.searchDate = function (currentPage, itemsPerPage, searchEntity) {
+    $scope.search = function (currentPage, itemsPerPage, searchEntity) {
 
-        brandService.searchDate($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage, $scope.searchEntity).success(
+        brandService.search($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage, $scope.searchEntity).success(
             function (data) {
                 $scope.list = data.list;
                 $scope.paginationConf.totalItems = data.total;
             }
         );
-    };
 
+    };
 
 
 });

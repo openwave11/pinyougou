@@ -13,7 +13,7 @@ app.service('brandService', function ($http) {
     };
     this.search = function (currentPage, itemsPerPage, searchEntity) {
         return $http.post('../brand/search.do?page=' + currentPage + '&rows=' + itemsPerPage, searchEntity);
-    }
+    };
 
 
     this.selectOptionList = function () {

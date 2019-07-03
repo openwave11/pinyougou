@@ -69,12 +69,36 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 	
 	//搜索
 	$scope.search=function(page,rows){			
-		sellerService.search(page,rows,$scope.searchEntity).success(
+		sellerService.search($scope.paginationConf.currentPage,
+			$scope.paginationConf.itemsPerPage, $scope.searchEntity).success(
 			function(response){
 				$scope.list=response.rows;	
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
 	}
-    
+
+	$scope.updateStatus=function (sellerId,status) {
+		sellerService.updateSellerStatus(sellerId,status).success(
+			function (response) {
+				if (response.success){
+					$scope.reloadList();
+				} else {
+					alert(response.message);
+				}
+			}
+		)
+	}
+
+
+	//增加状态s查询
+	$scope.statuss = [];
+	$scope.statusSelect = function ($event, status) {
+		if ($event.target.checked) {
+			$scope.statuss.push(status);
+		} else {
+			var index = $scope.statuss.indexOf(status);
+			$scope.statuss.splice(index, 1);
+		}
+	};
 });	

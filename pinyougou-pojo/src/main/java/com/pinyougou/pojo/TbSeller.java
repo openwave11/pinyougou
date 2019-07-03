@@ -17,7 +17,9 @@ public class TbSeller implements Serializable {
     private String mobile;
 
     private String telephone;
-
+    /**
+     * 状态值： 0：未审核 1：已审核 2：审核未通过 3：关闭
+     */
     private String status;
 
     private String addressDetail;
