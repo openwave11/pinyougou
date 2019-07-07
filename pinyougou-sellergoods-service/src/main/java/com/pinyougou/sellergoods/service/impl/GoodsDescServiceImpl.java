@@ -7,9 +7,10 @@ import com.pinyougou.mapper.TbGoodsDescMapper;
 import com.pinyougou.pojo.TbGoodsDesc;
 import com.pinyougou.pojo.TbGoodsDescExample;
 import com.pinyougou.pojo.TbGoodsDescExample.Criteria;
-import entity.PageResult;
 import com.pinyougou.sellergoods.service.GoodsDescService;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ import java.util.List;
  * @author Administrator
  *
  */
-@Service
+@Service(timeout = 5000,retries = 0)
+@Transactional
 public class GoodsDescServiceImpl implements GoodsDescService {
 
 	@Autowired

@@ -4,6 +4,7 @@ import com.pinyougou.pojo.TbTypeTemplate;
 import entity.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -61,5 +62,6 @@ public interface TypeTemplateService {
 	 */
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize);
 
+	public List<Map> findSpecList(Long id);
 
 }

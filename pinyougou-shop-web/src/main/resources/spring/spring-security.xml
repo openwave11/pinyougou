@@ -12,6 +12,7 @@
    ">
 
     <!-- 配置不拦截的资源 -->
+    <http pattern="/*/**" security="none"/>
     <http pattern="/seller/add.do" security="none"/>
     <http pattern="/shoplogin.html" security="none"/>
     <http pattern="/register.html" security="none"/>

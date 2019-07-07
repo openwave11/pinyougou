@@ -9,6 +9,7 @@ import java.util.List;
  * @author Administrator
  *
  */
+
 public interface ItemCatService {
 
 	/**
@@ -58,5 +59,6 @@ public interface ItemCatService {
 	 * @return
 	 */
 	public PageResult findPage(TbItemCat itemCat, int pageNum, int pageSize);
-	
+
+	List<TbItemCat> findByParentId(Long parentId);
 }

@@ -7,9 +7,10 @@ import com.pinyougou.mapper.TbSpecificationOptionMapper;
 import com.pinyougou.pojo.TbSpecificationOption;
 import com.pinyougou.pojo.TbSpecificationOptionExample;
 import com.pinyougou.pojo.TbSpecificationOptionExample.Criteria;
-import entity.PageResult;
 import com.pinyougou.sellergoods.service.SpecificationOptionService;
+import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ import java.util.List;
  * @author Administrator
  *
  */
-@Service
+@Service(timeout = 5000,retries = 0)
+@Transactional
 public class SpecificationOptionServiceImpl implements SpecificationOptionService {
 
 	@Autowired

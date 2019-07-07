@@ -2,23 +2,26 @@ package com.pinyougou.sellergoods.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
-//import com.github.pagehelper.PageInfo;
-import entity.PageInfo;
 import com.pinyougou.mapper.TbBrandMapper;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.pojo.TbBrandExample;
 import com.pinyougou.sellergoods.service.BrandService;
+import entity.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+
+//import com.github.pagehelper.PageInfo;
 
 /**
  * BrandServiceImpl
  *
  * @author 11
  */
-@Service
+@Service(timeout = 5000,retries = 0)
+@Transactional
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private TbBrandMapper brandMapper;

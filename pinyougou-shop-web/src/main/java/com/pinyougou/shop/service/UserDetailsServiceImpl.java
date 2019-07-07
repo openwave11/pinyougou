@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_SELLER"));
 
         TbSeller seller = sellerService.findOne(username);
-        if (seller!=null){
+       /* if (seller!=null){
             if ("1".equals(seller.getStatus())){
                 return new User(username, seller.getPassword(), grantedAuthorities);
             }else {
@@ -41,7 +41,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             }
         }else {
             return null;
-        }
+        }*/
+       if (seller==null||"1".equals(seller.getStatus())){
+           return null;
+       }
+        return new User(username, seller.getPassword(), grantedAuthorities);
 //        User user = new User(username, "123", grantedAuthorities);
 //        return user;
     }
