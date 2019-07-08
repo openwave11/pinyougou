@@ -1,4 +1,5 @@
 package com.pinyougou.shop.controller;
+
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.sellergoods.service.TypeTemplateService;

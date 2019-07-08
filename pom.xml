@@ -8,15 +8,17 @@
     <artifactId>pinyougou-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-        <modules>
-            <module>pinyougou-pojo</module>
-            <module>pinyougou-dao</module>
-            <module>pinyougou-sellergoods-interface</module>
-            <module>pinyougou-sellergoods-service</module>
-            <module>pinyougou-manager-web</module>
-            <module>pinyougou-shop-web</module>
-            <module>pinyougou-common</module>
-        </modules>
+    <modules>
+        <module>pinyougou-pojo</module>
+        <module>pinyougou-dao</module>
+        <module>pinyougou-sellergoods-interface</module>
+        <module>pinyougou-sellergoods-service</module>
+        <module>pinyougou-manager-web</module>
+        <module>pinyougou-shop-web</module>
+        <module>pinyougou-common</module>
+        <module>pinyougou-content-interface</module>
+        <module>pinyougou-content-service</module>
+    </modules>
 
     <!-- 集中定义依赖版本号 -->
     <properties>
@@ -40,7 +42,7 @@
         <ik.version>2012_u6</ik.version>
     </properties>
 
-
+    <dependencyManagement>
         <dependencies>
 
             <!-- Spring -->
@@ -268,9 +270,7 @@
                 <version>1.4.01</version>
             </dependency>
         </dependencies>
-
-
-
+    </dependencyManagement>
 
 
     <build>

@@ -14,7 +14,11 @@ public class TbGoods implements Serializable {
 
     private String auditStatus;
 
+    private String auditStatusStr;
+
     private String isMarketable;
+
+    private String isMarketableStr;
 
     private Long brandId;
 
@@ -76,12 +80,59 @@ public class TbGoods implements Serializable {
         this.auditStatus = auditStatus == null ? null : auditStatus.trim();
     }
 
+    public String getAuditStatusStr() {
+        /*   <option value="">全部</option>
+                <option value="0">未申请</option>
+                <option value="1">申请中</option>
+                <option value="2">审核通过</option>
+                <option value="3">已驳回</option>*/
+
+        switch (auditStatus) {
+            case "0":
+                auditStatusStr = "未申请";
+                break;
+            case "1":
+                auditStatusStr = "申请中";
+                break;
+            case "2":
+                auditStatusStr = "审核通过";
+                break;
+            case "3":
+                auditStatusStr = "已驳回";
+                break;
+            default:
+                auditStatusStr = "无";
+                break;
+        }
+
+        return auditStatusStr;
+    }
+
+    public void setAuditStatusStr(String auditStatusStr) {
+        this.auditStatusStr = auditStatusStr;
+    }
+
     public String getIsMarketable() {
         return isMarketable;
     }
 
     public void setIsMarketable(String isMarketable) {
         this.isMarketable = isMarketable == null ? null : isMarketable.trim();
+    }
+
+    public String getIsMarketableStr() {
+
+        if (isMarketable==null||"".equals(isMarketable)||"0".equals(isMarketable)||"null".equals(isMarketable)){
+            isMarketableStr = "已下架";
+        }
+        if ("1".equals(isMarketable)){
+            isMarketableStr = "已上架";
+        }
+        return isMarketableStr;
+    }
+
+    public void setIsMarketableStr(String isMarketableStr) {
+        this.isMarketableStr = isMarketableStr;
     }
 
     public Long getBrandId() {

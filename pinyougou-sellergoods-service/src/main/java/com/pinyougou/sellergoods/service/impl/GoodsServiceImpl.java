@@ -71,7 +71,10 @@ public class GoodsServiceImpl implements GoodsService {
         //插入商品扩展数据
         goodsDescMapper.insertSelective(goods.getGoodsDesc());
 
-//itemList:[{"spec":{"网络":"移动4G"},"price":0,"num":99999,"status":"0","isDefault":"0"}]
+        saveItemList(goods);
+    }
+
+    private void saveItemList(Goods goods) {
         if ("1".equals(goods.getGoods().getIsEnableSpec())) {
             for (TbItem item : goods.getItemList()) {
                 //标题
@@ -86,7 +89,7 @@ public class GoodsServiceImpl implements GoodsService {
                 setItemValue(goods, item);
                 itemMapper.insert(item);
             }
-        }else {
+        } else {
             TbItem item = new TbItem();
             item.setTitle(goods.getGoods().getGoodsName());
             item.setPrice(goods.getGoods().getPrice());
@@ -94,7 +97,7 @@ public class GoodsServiceImpl implements GoodsService {
             item.setIsDefault("1");
             item.setNum(9999);
             item.setSpec("{}");
-            setItemValue(goods,item);
+            setItemValue(goods, item);
             itemMapper.insert(item);
         }
     }
@@ -133,14 +136,22 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
 
-
-
     /**
      * 修改
      */
     @Override
-    public void update(TbGoods goods) {
-        goodsMapper.updateByPrimaryKey(goods);
+    public void update(Goods goods) {
+
+        goodsMapper.updateByPrimaryKey(goods.getGoods());
+        goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+
+        //删除原有itemlist
+        TbItemExample example = new TbItemExample();
+        example.createCriteria().andGoodsIdEqualTo(goods.getGoods().getId());
+        itemMapper.deleteByExample(example);
+
+        //新增itemlist
+        saveItemList(goods);
     }
 
     /**
@@ -150,8 +161,21 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public TbGoods findOne(Long id) {
-        return goodsMapper.selectByPrimaryKey(id);
+    public Goods findOne(Long id) {
+        Goods goods = new Goods();
+        TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+        TbGoodsDesc tbGoodsDesc = goodsDescMapper.selectByPrimaryKey(tbGoods.getId());
+        goods.setGoods(tbGoods);
+        goods.setGoodsDesc(tbGoodsDesc);
+
+        //查询商品列表
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdEqualTo(id);
+        List<TbItem> tbItems = itemMapper.selectByExample(example);
+
+        goods.setItemList(tbItems);
+        return goods;
     }
 
     /**
@@ -160,7 +184,9 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
-            goodsMapper.deleteByPrimaryKey(id);
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setIsDelete("1");
+            goodsMapper.updateByPrimaryKey(goods);
         }
     }
 
@@ -171,10 +197,10 @@ public class GoodsServiceImpl implements GoodsService {
 
         TbGoodsExample example = new TbGoodsExample();
         Criteria criteria = example.createCriteria();
-
+        criteria.andIsDeleteIsNull();
         if (goods != null) {
             if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
-                criteria.andSellerIdEqualTo("%" + goods.getSellerId() + "%");
+                criteria.andSellerIdEqualTo(goods.getSellerId());
             }
             if (goods.getGoodsName() != null && goods.getGoodsName().length() > 0) {
                 criteria.andGoodsNameLike("%" + goods.getGoodsName() + "%");
@@ -202,6 +228,24 @@ public class GoodsServiceImpl implements GoodsService {
 
         Page<TbGoods> page = (Page<TbGoods>) goodsMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        for (Long id : ids) {
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setAuditStatus(status);
+            goodsMapper.updateByPrimaryKey(goods);
+        }
+    }
+
+    @Override
+    public void updateMarketable(Long[] ids, String status) {
+        for (Long id : ids) {
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setIsMarketable(status);
+            goodsMapper.updateByPrimaryKey(goods);
+        }
     }
 
 }
