@@ -45,12 +45,6 @@
 
     </http>
 
-
-
-
-
-
-
     <!-- 切换成数据库中的用户名和密码 -->
    <authentication-manager>
        <authentication-provider>

@@ -18,7 +18,7 @@ import java.util.List;
  * @author Administrator
  *
  */
-@Service
+@Service(timeout = 5000, retries = 0)
 public class CitiesServiceImpl implements CitiesService {
 
 	@Autowired
@@ -29,6 +29,7 @@ public class CitiesServiceImpl implements CitiesService {
 	 */
 	@Override
 	public List<TbCities> findAll() {
+
 		return citiesMapper.selectByExample(null);
 	}
 
