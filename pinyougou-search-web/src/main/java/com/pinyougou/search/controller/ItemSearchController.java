@@ -21,9 +21,9 @@ public class ItemSearchController {
     private ItemSearchService itemSearchService;
 
     @RequestMapping("/search")
-    public Map search(@RequestBody Map specMap) {
+    public Map search(@RequestBody Map searchMap) {
 
-        return itemSearchService.search(specMap);
+        return itemSearchService.search(searchMap);
 
     }
 

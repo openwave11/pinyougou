@@ -5,6 +5,7 @@ import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
 import org.springframework.data.solr.core.query.result.*;
@@ -27,18 +28,43 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     @Autowired
     private SolrTemplate solrTemplate;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
-    public  Map<String, Object> search(Map specMap) {
+    public Map<String, Object> search(Map searchMap) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.putAll(searchList(specMap));
+        //高亮显示
+        map.putAll(searchList(searchMap));
+        //根据关键字查询商品分类
+        List<String> categorylist = searchCategoryList(searchMap);
+        map.put("categoryList", categorylist);
 
-        List list = searchCategoryList(specMap);
+        //查询品牌和规格列表
+        //如果有分类名称。则查询点击的分类名称
+        //如果没有，则按第一个查询
+        String categoryName= (String) searchMap.get("category");
+            if (!"".equals(categoryName)){
+                map.putAll(searchBrandAndSpecList(categoryName));
+            }else {
+                map.putAll(searchBrandAndSpecList(categorylist.get(0)));
+            }
 
-        map.put("categoryList", list);
+       /* if (categorylist.size()>0){
+            Map brandAndSpecList = searchBrandAndSpecList(categorylist.get(0));
+            map.putAll(brandAndSpecList);
+        }*/
+
         return map;
     }
 
-    private  Map<String, Object> searchList(Map specMap){
+    /**
+     * 实现关键词高亮
+     *
+     * @param searchMap
+     * @return
+     */
+    private Map<String, Object> searchList(Map searchMap) {
         Map<String, Object> map = new HashMap<String, Object>();
 
         //关键词高亮显示
@@ -54,7 +80,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
         //按照关键字查询
 //        SimpleQuery query = new SimpleQuery("*:*");
-        Criteria criteria = new Criteria("item_keywords").is(specMap.get("keywords"));
+        Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));
 
         query.addCriteria(criteria);
 
@@ -73,15 +99,41 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
         map.put("rows", list);
 
+
+        //1.2按分类筛选
+        if (!"".equals(searchMap.get("category"))){
+            Criteria filterCriteria = new Criteria("item_category").is(searchMap.get("category"));
+            FilterQuery filterQuery = new SimpleFilterQuery(filterCriteria);
+            query.addFilterQuery(filterQuery);
+        }
+
+        //1.3按品牌筛选
+        if (!"".equals(searchMap.get("brand"))){
+            Criteria filterCriteria = new Criteria("item_brand").is(searchMap.get("brand"));
+            FilterQuery filterQuery = new SimpleFilterQuery(filterCriteria);
+            query.addFilterQuery(filterQuery);
+        }
+        //1.4按规格筛选
+        if (searchMap.get("spec")!= null){
+            Map<String,String> specMap = (Map<String, String>) searchMap.get("spec");
+
+            for (String key : specMap.keySet()) {
+                Criteria filterCriteria = new Criteria("item_spec_" + key).is(specMap.get(key));
+                SimpleFilterQuery filterQuery = new SimpleFilterQuery(filterCriteria);
+                query.addFilterQuery(filterQuery);
+            }
+        }
+
         return map;
     }
 
     /**
      * 根据搜索关键字查询商品分类名称列表
+     *
      * @param searchMap
      * @return
      */
-    private List searchCategoryList(Map searchMap){
+    private List searchCategoryList(Map searchMap) {
         List<String> list = new ArrayList<>();
         SimpleQuery query = new SimpleQuery();
 
@@ -107,5 +159,20 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         }
         return list;
     }
+
+
+    private Map searchBrandAndSpecList(String category) {
+        Map map = new HashMap<>();
+        Long typeId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
+
+        if (typeId != null) {
+            List brandList = (List) redisTemplate.boundHashOps("brandList").get(typeId);
+            List specList = (List) redisTemplate.boundHashOps("specList").get(typeId);
+            map.put("brandList", brandList);
+            map.put("specList", specList);
+        }
+        return map;
+    }
+
 
 }

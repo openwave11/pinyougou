@@ -1,3 +1,4 @@
+/*
 package com.pinyougou.solrutil;
 
 
@@ -149,3 +150,4 @@ public class TbItemTest {
 
 
 }
+*/
