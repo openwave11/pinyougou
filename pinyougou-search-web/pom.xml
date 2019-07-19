@@ -26,6 +26,7 @@
     </build>
     <dependencies>
 
+
         <dependency>
             <groupId>com.pinyougou</groupId>
             <artifactId>pinyougou-search-interface</artifactId>

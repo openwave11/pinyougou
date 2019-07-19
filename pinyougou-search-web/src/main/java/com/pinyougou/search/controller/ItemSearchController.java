@@ -20,7 +20,7 @@ public class ItemSearchController {
     @Reference
     private ItemSearchService itemSearchService;
 
-    @RequestMapping("/search")
+    @RequestMapping("/search.do")
     public Map search(@RequestBody Map searchMap) {
 
         return itemSearchService.search(searchMap);

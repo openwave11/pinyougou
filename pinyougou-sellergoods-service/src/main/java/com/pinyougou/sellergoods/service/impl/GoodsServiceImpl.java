@@ -13,10 +13,7 @@ import entity.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 服务实现层
@@ -247,5 +244,18 @@ public class GoodsServiceImpl implements GoodsService {
             goodsMapper.updateByPrimaryKey(goods);
         }
     }
+
+    @Override
+    public List<TbItem> findItemListByGoodsIdandStatus(Long[] ids, String status) {
+        TbItemExample example = new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(Arrays.asList(ids));
+        criteria.andStatusEqualTo(status);
+
+        List<TbItem> items = itemMapper.selectByExample(example);
+
+        return items;
+    }
+
 
 }
