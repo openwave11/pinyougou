@@ -28,14 +28,24 @@
 	</bean>
 
 
-	<!--这个是订阅模式  文本信息-->
+	<!--这个是单点模式  文本信息updateStute-->
 	<bean id="queueSolrDestination" class="org.apache.activemq.command.ActiveMQQueue">
 	    <constructor-arg value="pinyougou_queue_solr"/>
 	</bean>
 
-	<!--这个是订阅模式  文本信息-->
+	<!--这个是单点模式  文本信息-删除-->
 	<bean id="queueSolrDeleteDestination" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg value="pinyougou_queue_solr_delete"/>
+	</bean>
+
+	<!--这个是订阅模式  文本信息-page-getHtml-->
+	<bean id="topicPageCreateDestination" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="pinyougou_topic_page_create"/>
+	</bean>
+
+	<!--这个是订阅模式  文本信息-page-delete-->
+	<bean id="topicPageDeleteDestination" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="pinyougou_topic_page_delete"/>
 	</bean>
 
 </beans>

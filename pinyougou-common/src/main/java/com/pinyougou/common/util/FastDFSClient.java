@@ -74,5 +74,6 @@ public class FastDFSClient {
 		sb.append("http://").append(ipAddr).append("/").append(fileId);
 		String result = sb.toString();
 		return result;
+
 	}
 }

@@ -37,6 +37,7 @@ public class GoodsServiceImpl implements GoodsService {
     private TbItemCatMapper itemCatMapper;
     @Autowired
     private TbSellerMapper sellerMapper;
+    private Goods goods;
 
     /**
      * 查询全部
@@ -62,7 +63,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public void add(Goods goods) {
         goods.getGoods().setAuditStatus("0");
-        //插入商品表
+        //插入商品表-
         goodsMapper.insert(goods.getGoods());
         goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());
         //插入商品扩展数据
@@ -72,6 +73,7 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     private void saveItemList(Goods goods) {
+        this.goods = goods;
         if ("1".equals(goods.getGoods().getIsEnableSpec())) {
             for (TbItem item : goods.getItemList()) {
                 //标题

@@ -2,7 +2,6 @@ package com.pinyougou.manager.controller.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojogroup.Goods;
@@ -42,6 +41,12 @@ public class GoodsController {
     private Destination queueSolrDestination;
     @Autowired
     private Destination queueSolrDeleteDestination;
+
+    @Autowired
+    private Destination topicPageCreateDestination;
+
+    @Autowired
+    private Destination topicPageDeleteDestination;
 //    @Reference
 //    private ItemSearchService itemSearchService;
 
@@ -123,12 +128,25 @@ public class GoodsController {
         try {
             goodsService.delete(ids);
 //            itemSearchService.deleteByGoodsIds(ids);
+            //删除solr中sku列表
             jmsTemplate.send(queueSolrDeleteDestination, new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {
                     return session.createObjectMessage(ids);
                 }
             });
+
+
+            //删除生成的page页面
+            jmsTemplate.send(topicPageDeleteDestination, new MessageCreator() {
+                @Override
+                public Message createMessage(Session session) throws JMSException {
+
+                        return session.createObjectMessage(ids);
+
+                }
+            });
+
 
             return new Result(true, "删除成功");
         } catch (Exception e) {
@@ -151,7 +169,7 @@ public class GoodsController {
 
 
     @RequestMapping("/updateStatus.do")
-    public Result updateStatus(Long[] ids, String status) {
+    public Result updateStatus(final Long[] ids, String status) {
         try {
             goodsService.updateStatus(ids, status);
 
@@ -174,10 +192,18 @@ public class GoodsController {
                 } else {
                     System.out.println("没有明细");
                 }
-                //静态页生成
+               /* //静态页生成
                 for (Long id : ids) {
                     itemPageService.getItemHtml(id);
-                }
+                }*/
+
+                jmsTemplate.send(topicPageCreateDestination, new MessageCreator() {
+                    @Override
+                    public Message createMessage(Session session) throws JMSException {
+                        return session.createObjectMessage(ids);
+                    }
+                });
+
 
             }
             return new Result(true, "成功");
@@ -188,13 +214,13 @@ public class GoodsController {
     }
 
 
-    @Reference(timeout = 40000)
+  /*  @Reference(timeout = 40000)
     private ItemPageService itemPageService;
 
     @RequestMapping("/getHtml.do")
     public void getHtml(Long goodsId) {
         itemPageService.getItemHtml(goodsId);
-    }
+    }*/
 
 
 }
