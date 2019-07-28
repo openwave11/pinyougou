@@ -1,4 +1,4 @@
-app.controller("itemController", function ($scope) {
+app.controller("itemController", function ($scope,$http) {
 
     $scope.specificationItems = {};//存储用户选择的规格
 
@@ -35,11 +35,11 @@ app.controller("itemController", function ($scope) {
     }
 
     //选择规格更新 SKU
-    matchObject=function (map1, map2) {
+    matchObject = function (map1, map2) {
         //如果两个sku中元素个数不相等直接返回false
-        if (map1.size!=map2.size){
+        if (map1.size != map2.size) {
             return false;
-        }else {
+        } else {
             //如果两个sku中元素个数相等，
             //对应的值不相等。返回false
             for (var k in map1) {
@@ -53,9 +53,9 @@ app.controller("itemController", function ($scope) {
 
     //在列表中查询当前用户选择的sku
 
-    searchSku=function () {
+    searchSku = function () {
         for (var i = 0; i < skuList.length; i++) {
-            if (matchObject(skuList[i].spec,$scope.specificationItems)){
+            if (matchObject(skuList[i].spec, $scope.specificationItems)) {
                 $scope.sku = skuList[i];
                 return;
             }
@@ -65,9 +65,19 @@ app.controller("itemController", function ($scope) {
     }
 
     //添加购物车预留
-    
-    $scope.addToCart=function () {
-        alert('skuid:' + $scope.sku.id);
+
+    $scope.addToCart = function () {
+        $http.get('http://localhost:9107/cart/addGoodsToCartList.do?itemId='
+            + $scope.sku.id + '&num=' + $scope.num,{'withCredentials':true}).success(
+            function (response) {
+                if (response.success) {
+                    location.href = 'http://localhost:9107/cart.html';
+                    //跳转到购物车页面
+                } else {
+                    alert(response.message);
+                }
+            }
+        );
     }
 
 

@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +52,8 @@ public class ItemPageServiceImpl implements ItemPageService {
     @Override
     public boolean getItemHtml(Long goodsId) {
         Configuration configuration = freeMarkerConfigurer.getConfiguration();
-        FileWriter out = null;
+//        FileWriter out = null;
+        OutputStreamWriter  out = null;
         try {
             Template template = configuration.getTemplate("item.ftl");
             Map dataModel = new HashMap<>();
@@ -92,7 +91,8 @@ public class ItemPageServiceImpl implements ItemPageService {
 
             dataModel.put("itemList", itemList);
 
-            out = new FileWriter(pagedir + goodsId + ".html");
+//            out = new FileWriter(pagedir + goodsId + ".html");
+            out = new OutputStreamWriter(new FileOutputStream(pagedir + goodsId + ".html"),"utf-8");
             template.process(dataModel, out);
 
             return true;

@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <html>
 
 <head>
     <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7"/>
     <title>产品详情页</title>
@@ -189,7 +191,7 @@ sku:{{sku}}<br>
                         <div class="fl">
                             <ul class="btn-choose unstyled">
                                 <li>
-                                    <a href="cart.html" target="_blank" class="sui-btn  btn-danger addshopcar" ng-click="addToCart()" >加入购物车</a>
+                                    <a  target="_blank" class="sui-btn  btn-danger addshopcar" ng-click="addToCart()" >加入购物车</a>
                                 </li>
                             </ul>
                         </div>
