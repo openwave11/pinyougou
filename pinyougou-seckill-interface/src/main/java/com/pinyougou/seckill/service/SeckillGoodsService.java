@@ -1,5 +1,4 @@
 package com.pinyougou.seckill.service;
-
 import com.pinyougou.pojo.TbSeckillGoods;
 import entity.PageResult;
 
@@ -22,7 +21,7 @@ public interface SeckillGoodsService {
 	 * 返回分页列表
 	 * @return
 	 */
-	public PageResult findPage(int pageNum,int pageSize);
+	public PageResult findPage(int pageNum, int pageSize);
 	
 	
 	/**
@@ -49,7 +48,7 @@ public interface SeckillGoodsService {
 	 * 批量删除
 	 * @param ids
 	 */
-	public void delete(Long [] ids);
+	public void delete(Long[] ids);
 
 	/**
 	 * 分页
@@ -57,13 +56,20 @@ public interface SeckillGoodsService {
 	 * @param pageSize 每页记录数
 	 * @return
 	 */
-	public PageResult findPage(TbSeckillGoods seckillGoods, int pageNum,int pageSize);
-
-
+	public PageResult findPage(TbSeckillGoods seckillGoods, int pageNum, int pageSize);
+	
 	/**
-	 * 返回当前正在参与秒杀的商品
+	 * 返回正在参与秒杀的商品
 	 * @return
 	 */
 	public List<TbSeckillGoods> findList();
+	
+	
+	/**
+	 * 根据ID获取实体(从缓存中读取)
+	 * @param id
+	 * @return
+	 */
+	public TbSeckillGoods findOneFromRedis(Long id);
 	
 }

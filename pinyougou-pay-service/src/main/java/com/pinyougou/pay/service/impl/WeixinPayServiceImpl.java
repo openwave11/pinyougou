@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Service
+@Service(timeout = 6000, retries = 0)
 public class WeixinPayServiceImpl implements WeixinPayService {
 
     @Value("${appid}")
@@ -33,7 +33,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         //公众账号ID
         param.put("appid", appid);
         //商户
-        param.put("partner", partner);
+        param.put("mch_id", partner);
         //随机字符串
         param.put("nonce_str", WXPayUtil.generateNonceStr());
         //商品描述
@@ -73,7 +73,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
 //            String tradeType = map.get("trade_type");
 //            String prepayId = map.get("prepay_id");
             String errCode = resultMap.get("err_code");
-            System.out.println("errCode:"+errCode);
+            System.out.println("errCode:" + errCode);
 
             map.put("code_url", resultMap.get("code_url"));
             map.put("total_fee", total_fee);
@@ -117,4 +117,27 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         }
     }
 
+    @Override
+    public Map<String, String> closePay(String out_trade_no) {
+        Map param = new HashMap();
+        param.put("appid", appid);//公众账号 ID
+        param.put("mch_id", partner);//商户号
+        param.put("out_trade_no", out_trade_no);//订单号
+        param.put("nonce_str", WXPayUtil.generateNonceStr());//随机字符串
+        String url = "https://api.mch.weixin.qq.com/pay/closeorder";
+        try {
+            String xmlParam = WXPayUtil.generateSignedXml(param, partnerkey);
+            HttpClient client = new HttpClient(url);
+            client.setHttps(true);
+            client.setXmlParam(xmlParam);
+            client.post();
+            String result = client.getContent();
+            Map<String, String> map = WXPayUtil.xmlToMap(result);
+            System.out.println(map);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

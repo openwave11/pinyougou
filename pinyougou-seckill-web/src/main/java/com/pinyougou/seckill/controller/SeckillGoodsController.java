@@ -109,16 +109,17 @@ public class SeckillGoodsController {
 	public PageResult search(@RequestBody TbSeckillGoods seckillGoods, int page, int rows  ){
 		return seckillGoodsService.findPage(seckillGoods, page, rows);		
 	}
-
-	/**
-	 * 返回当前正在参与秒杀的商品
-	 * @return
-	 */
+	
+	
 	@RequestMapping("/findList")
 	public List<TbSeckillGoods> findList(){
-
 		return seckillGoodsService.findList();
-
 	}
-
+	
+	@RequestMapping("/findOneFromRedis")
+	public TbSeckillGoods findOneFromRedis(Long id){
+		System.out.println("findOneFromRedis.conRequestMapping");
+		TbSeckillGoods oneFromRedis = seckillGoodsService.findOneFromRedis(id);
+		return oneFromRedis;
+	}
 }
