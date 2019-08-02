@@ -1,9 +1,12 @@
 package com.pinyougou.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 
 @SuppressWarnings("AlibabaCommentsMustBeJavadocFormat")
+@Data
 public class TbBrand  implements Serializable {
     /*  字段 类型   长度 	含义
         Id 	Bigint 	 	主键

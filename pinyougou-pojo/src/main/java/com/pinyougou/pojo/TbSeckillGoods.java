@@ -1,10 +1,18 @@
 package com.pinyougou.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * @author Administrator
+ */
+@Data
 public class TbSeckillGoods implements Serializable{
+    //todo
+    private static final long serialVersionUID = 2392791962101779925L;
+
     private Long id;
 
     private Long goodsId;

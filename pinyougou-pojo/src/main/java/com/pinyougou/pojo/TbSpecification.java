@@ -1,11 +1,14 @@
 package com.pinyougou.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 组合
  * @author 我的天
  */
+@Data
 public class TbSpecification implements Serializable {
     private Long id;
 

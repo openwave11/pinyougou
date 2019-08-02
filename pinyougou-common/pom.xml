@@ -10,6 +10,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>pinyougou-common</artifactId>
+
+
+    <properties>
+        <env>dev</env>
+    </properties>
+
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>pro</id>
+            <properties>
+                <env>pro</env>
+            </properties>
+        </profile>
+    </profiles>
+
+
     <dependencies>
         <dependency>
             <groupId>org.csource.fastdfs</groupId>
@@ -40,10 +64,24 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.5.16</version>
+            <version>4.6.1</version>
         </dependency>
 
-    </dependencies>
 
+    </dependencies>
+    <build>
+        <filters>
+            <filter>
+                src/main/resources/filters/dubbox_${env}.properties
+            </filter>
+        </filters>
+        <resources>
+            <resource>
+                <directory>src\main\resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+    </build>
 
 </project>

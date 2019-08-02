@@ -1,7 +1,9 @@
 package com.pinyougou.pojo;
 
-import java.io.Serializable;
+import lombok.Data;
 
+import java.io.Serializable;
+@Data
 public class TbSpecificationOption implements Serializable {
     private Long id;
 

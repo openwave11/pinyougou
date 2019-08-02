@@ -60,7 +60,7 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:1.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-oxm:4.2.6.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:jcl-over-slf4j:1.7.21" level="project" />
-    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:4.5.16" level="project" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:4.6.1" level="project" />
     <orderEntry type="module" module-name="pinyougou-content-interface" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-client:5.13.4" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.13" level="project" />

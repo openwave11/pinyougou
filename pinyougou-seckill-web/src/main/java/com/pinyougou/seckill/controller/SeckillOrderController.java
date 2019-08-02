@@ -1,16 +1,15 @@
 package com.pinyougou.seckill.controller;
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.pinyougou.pojo.TbSeckillOrder;
+import com.pinyougou.seckill.service.SeckillOrderService;
+import entity.PageResult;
+import entity.Result;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.pinyougou.pojo.TbSeckillOrder;
-import com.pinyougou.seckill.service.SeckillOrderService;
 
-import entity.PageResult;
-import entity.Result;
+import java.util.List;
 /**
  * controller
  * @author Administrator
@@ -102,7 +101,7 @@ public class SeckillOrderController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param
 	 * @param page
 	 * @param rows
 	 * @return

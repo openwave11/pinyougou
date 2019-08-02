@@ -1,5 +1,6 @@
 package com.pinyougou.solrutil;
 
+import com.pinyougou.pojo.TbSeckillGoods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:spring/applicationContext*.xml")
@@ -32,9 +33,23 @@ public class test {
 
     @Test
     public void test2() {
-        Boolean content = redisTemplate.expire("nameSet", 1, TimeUnit.SECONDS);
+//        Boolean content = redisTemplate.expire("nameSet", 1, TimeUnit.SECONDS);
+        Set set = redisTemplate.boundHashOps("seckillGoods").keys();
 
-        System.out.println(content);
+        for (Object o : set) {
+            TbSeckillGoods seckillGoods = (TbSeckillGoods) redisTemplate.boundHashOps("seckillGoods").get(o);
+
+            System.out.println("seckillGoods:"+seckillGoods);
+        }
+        Object o = redisTemplate.boundHashOps("seckillOrder").get("lijialong");
+        System.out.println(o);
+
+
+        /*删除
+        redisTemplate.delete("cartList");
+        redisTemplate.delete("seckillOrder");
+        redisTemplate.delete("seckillGoods");*/
+//        System.out.println(content);
 //        Set nameSet = redisTemplate.boundHashOps("nameSet").keys();
 
     }

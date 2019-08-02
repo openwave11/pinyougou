@@ -1,8 +1,10 @@
 package com.pinyougou.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
+@Data
 public class TbPayLog implements Serializable {
     private String outTradeNo;
 
